@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "MPU_6050_Breakout")(type "KiCad")(uri "${KIPRJMOD}/MPU_6050_Breakout.kicad_sym")(options "")(descr ""))
+  (lib (name "cam for cmdsat")(type "KiCad")(uri "${KIPRJMOD}/cam for cmdsat.kicad_sym")(options "")(descr ""))
+)
