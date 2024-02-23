@@ -377,7 +377,7 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "warning",
+      "pin_to_pin": "error",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
       "simulation_model_issue": "ignore",
@@ -475,6 +475,10 @@
     [
       "bb67acee-fe83-4190-8b19-f32400873772",
       "Accelerometers"
+    ],
+    [
+      "22fd8c01-9df3-40dc-8bad-c0959b1c3dd2",
+      "Electromagnets"
     ]
   ],
   "text_variables": {}

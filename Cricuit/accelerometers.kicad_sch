@@ -4,6 +4,12 @@
 
   (paper "A4")
 
+  (title_block
+    (title "MPU-6050 I2C Bus Wiring")
+    (date "2024-02-23")
+    (company "CMD_SAT")
+  )
+
   (lib_symbols
     (symbol "MPU_6050_Breakout:MPU_6050" (in_bom yes) (on_board yes)
       (property "Reference" "U" (at -1.27 5.08 0)
