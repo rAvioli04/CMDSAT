@@ -11,7 +11,7 @@
 --Y = 46008
 --Z = 46010
 
-local SLAVE_ADDRESS = 0x19
+local SLAVE_ADDRESS = 0x68
 
 -------------------------------------------------------------------------------
 --  Desc: Returns a number adjusted using the conversion factor
@@ -29,7 +29,7 @@ end
 
 
 -- Configure the I2C Bus
-I2C.config(13, 12, 65516, 0, SLAVE_ADDRESS, 0)
+I2C.config(1, 0, 65516, 0, SLAVE_ADDRESS, 0)
 local addrs = I2C.search(0, 127)
 local addrslen = table.getn(addrs)
 local found = 0
