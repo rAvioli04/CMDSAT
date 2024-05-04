@@ -29,7 +29,7 @@ end
 
 
 -- Configure the I2C Bus
-I2C.config(1, 0, 65516, 0, SLAVE_ADDRESS, 0)
+I2C.config(0, 1, 65516, 0, SLAVE_ADDRESS, 0)
 local addrs = I2C.search(0, 127)
 local addrslen = table.getn(addrs)
 local found = 0
