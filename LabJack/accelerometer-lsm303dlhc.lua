@@ -45,8 +45,26 @@ if found == 0 then
   print("No I2C Slave detected, program stopping")
   MB.writeName("LUA_RUN", 0)
 end
---Data Rate: 10Hz, disable low-power, enable all axes
---I2C.write({0x20, 0x27})
+-- WHO_AM_I Check
+I2C.write({0x75})
+local addressCheck = I2C.read(1)
+print(addressCheck)
+
+-- Reset Device
+I2C.write({0x6B, 0x07})
+-- Resent Sensors
+I2C.write({0x68, 0x80})
+-- Sample Rate Divider
+I2C.write({0x19, 0x00})
+-- Filter Config
+I2C.write({0x1A, 0x00})
+-- Gyro Config
+I2C.write({0x1B, 0x08})
+-- Accelerometer Config
+I2C.write({0x1C, 0x18})
+-- Power Management Config
+I2C.write({0x6B, 0x01})
+
 -- Continuous update, LSB at lower addr, +- 2g, Hi-Res disable
 --I2C.write({0x23, 0x49})
 -- Configure a 500ms interval
