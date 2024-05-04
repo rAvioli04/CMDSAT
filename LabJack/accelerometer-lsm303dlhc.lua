@@ -85,11 +85,11 @@ while true do
       table.insert(acceldata, convert_16_bit(rawacceldata[1+i*2], rawacceldata[2+i*2], (0x7FFF/2)))
     end
     -- Add accelX value, in Gs, to the user_ram register
-    MB.writeName("USER_RAM3_F32", acceldata[1])
+    MB.writeName("USER_RAM3_U16", acceldata[1])
     -- Add accelY
-    MB.writeName("USER_RAM4_F32", acceldata[2])
+    MB.writeName("USER_RAM4_U16", acceldata[2])
     -- Add accelZ
-    MB.writeName("USER_RAM5_F32", acceldata[3])
+    MB.writeName("USER_RAM5_U16", acceldata[3])
     print("X: "..acceldata[1])
     print("Y: "..acceldata[2])
     print("Z: "..acceldata[3])
