@@ -48,7 +48,7 @@ end
 -- WHO_AM_I Check
 I2C.write({0x75})
 local addressCheck = I2C.read(1)
-print(addressCheck)
+print(table.concat(addressCheck,'\n'))
 
 -- Reset Device
 I2C.write({0x6B, 0x07})
