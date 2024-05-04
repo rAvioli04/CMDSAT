@@ -75,7 +75,7 @@ while true do
     local rawacceldata = {}
     -- Sequentially read the addresses containing the accel data
     for i=0, 5 do
-      I2C.write({0x28+i})
+      I2C.write({0x3B+i})
       local indata = I2C.read(2)
       table.insert(rawacceldata, indata[1])
     end
