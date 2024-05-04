@@ -46,9 +46,9 @@ if found == 0 then
   MB.writeName("LUA_RUN", 0)
 end
 --Data Rate: 10Hz, disable low-power, enable all axes
-I2C.write({0x20, 0x27})
+--I2C.write({0x20, 0x27})
 -- Continuous update, LSB at lower addr, +- 2g, Hi-Res disable
-I2C.write({0x23, 0x49})
+--I2C.write({0x23, 0x49})
 -- Configure a 500ms interval
 LJ.IntervalConfig(0, 500)
 while true do
