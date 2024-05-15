@@ -7,9 +7,9 @@
 --]]
 
 --Outputs data to Registers:
---X = 46006
---Y = 46008
---Z = 46010
+X = 46182
+Y = 46183
+Z = 46184
 
 local SLAVE_ADDRESS = 0x68
 
@@ -85,11 +85,11 @@ while true do
       table.insert(acceldata, convert_16_bit(rawacceldata[1+i*2], rawacceldata[2+i*2], (0x7FFF/2)))
     end
     -- Add accelX value, in Gs, to the user_ram register
-    MB.W(46183, u16, acceldata[1])
+    MB.W(X, u16, acceldata[1])
     -- Add accelY
-    MB.W(46184, u16, acceldata[2])
+    MB.W(Y, u16, acceldata[2])
     -- Add accelZ
-    MB.W(46184, u16, acceldata[3])
+    MB.W(Z, u16, acceldata[3])
     print("X: "..acceldata[1])
     print("Y: "..acceldata[2])
     print("Z: "..acceldata[3])
