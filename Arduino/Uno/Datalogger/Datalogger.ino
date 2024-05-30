@@ -30,7 +30,7 @@
 #include "sdios.h"
 #define SD_FAT_TYPE 1
 #define SPI_SPEED SD_SCK_MHZ(4)
-#define BUFF_LEN 500
+#define BUFF_LEN 1800
 String filename = "data0.txt";
 const int8_t DISABLE_CHIP_SELECT = 8;
 //#define CHIP_SELECT 6
@@ -44,9 +44,12 @@ byte buff[12*BUFF_LEN];
 int i = 0;
 SdFat32 sd;
 File32 file;
-ArduinoOutStream cout(Serial);
+//ArduinoOutStream cout(Serial);
+int high = 0;
 
 void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   // Open serial communications and wait for port to open:
   Serial.begin(115200);
   while (!Serial) {
@@ -117,40 +120,41 @@ void setup() {
 
 
   // SERCOM0
-  Wire.beginTransmission(0x68);
-  Wire.write(deviceReset,2);
-  Serial.println(Wire.endTransmission());
-  Serial.println("SERCOM0 Reset");
-  
-  Wire.beginTransmission(0x68); 
-  Wire.write(sensorReset,2);
-  Wire.endTransmission();
-  Serial.println("SERCOM0 Sensors Reset");
+//  Wire.beginTransmission(0x68);
+//  Wire.write(deviceReset,2);
+//  Serial.println(Wire.endTransmission());
+//  Serial.println("SERCOM0 Reset");
+//  
+//  Wire.beginTransmission(0x68); 
+//  Wire.write(sensorReset,2);
+//  Wire.endTransmission();
+//  Serial.println("SERCOM0 Sensors Reset");
+//
+//  Wire.beginTransmission(0x68);         
+//  Wire.write(sampleRateDivider,2);
+//  Wire.endTransmission();
+//  Serial.println("SERCOM0 Sample Rate Divider Set");
+//
+//  Wire.beginTransmission(0x68);      
+//  Wire.write(filterConfig,2);
+//  Wire.endTransmission();
+//  Serial.println("SERCOM0 Filter Set");  
+//
+//  Wire.beginTransmission(0x68); 
+//  Wire.write(gyroConfig,2);
+//  Wire.endTransmission();
+//  Serial.println("SERCOM0 Gyro Configured");
+//
+//  Wire.beginTransmission(0x68);   
+//  Wire.write(accelerometerConfig,2);
+//  Wire.endTransmission();
+//  Serial.println("SERCOM0 Accelerometer Configured");  
+//
+//  Wire.beginTransmission(0x68);
+//  Wire.write(powerManagement,2);
+//  Wire.endTransmission();
+//  Serial.println("SERCOM0 Power Management Configured");  
 
-  Wire.beginTransmission(0x68);         
-  Wire.write(sampleRateDivider,2);
-  Wire.endTransmission();
-  Serial.println("SERCOM0 Sample Rate Divider Set");
-
-  Wire.beginTransmission(0x68);      
-  Wire.write(filterConfig,2);
-  Wire.endTransmission();
-  Serial.println("SERCOM0 Filter Set");  
-
-  Wire.beginTransmission(0x68); 
-  Wire.write(gyroConfig,2);
-  Wire.endTransmission();
-  Serial.println("SERCOM0 Gyro Configured");
-
-  Wire.beginTransmission(0x68);   
-  Wire.write(accelerometerConfig,2);
-  Wire.endTransmission();
-  Serial.println("SERCOM0 Accelerometer Configured");  
-
-  Wire.beginTransmission(0x68);
-  Wire.write(powerManagement,2);
-  Wire.endTransmission();
-  Serial.println("SERCOM0 Power Management Configured");  
 
   pinMode(SS,OUTPUT);
   //pinPeripheral(SCK,PIO_SERCOM_ALT );
@@ -173,16 +177,16 @@ void setup() {
   while (!sd.begin(SS,SPI_SPEED)) {
     Serial.println("Card failed, or not present");
     if (sd.card()->errorCode()) {
-            cout << F(
-             "\nSD initialization failed.\n"
-             "Is the card correctly inserted?\n"
-             "Is chipSelect set to the correct value?\n"
-             "Does another SPI device need to be disabled?\n"
-             "Is there a wiring/soldering problem?\n");
-      cout << F("\nerrorCode: ") << hex << showbase;
-      cout << int(sd.card()->errorCode());
-      cout << F(", errorData: ") << int(sd.card()->errorData());
-      cout << dec << noshowbase << endl;
+//            cout << F(
+//             "\nSD initialization failed.\n"
+//             "Is the card correctly inserted?\n"
+//             "Is chipSelect set to the correct value?\n"
+//             "Does another SPI device need to be disabled?\n"
+//             "Is there a wiring/soldering problem?\n");
+//      cout << F("\nerrorCode: ") << hex << showbase;
+//      cout << int(sd.card()->errorCode());
+//      cout << F(", errorData: ") << int(sd.card()->errorData());
+//      cout << dec << noshowbase << endl;
     }
 
     // don't do anything more:
@@ -209,6 +213,7 @@ void setup() {
   file.flush();
 
   Serial.println(sizeof(unsigned long));
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() {
@@ -238,5 +243,13 @@ void loop() {
       Serial.println("error opening file");
     }
     i=0;
+
+    if (high) {
+      digitalWrite(LED_BUILTIN, LOW);
+      high = 0;
+    } else {
+      digitalWrite(LED_BUILTIN, HIGH);
+      high = 1;
+    }
   }
 }
