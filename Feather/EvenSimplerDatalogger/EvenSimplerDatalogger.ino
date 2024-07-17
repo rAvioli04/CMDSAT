@@ -9,12 +9,14 @@
 #define CONFIG              0x1A
 #define GYRO_CONFIG         0x1B
 #define ACCEL_CONFIG        0x1C
-#define ACCEL_XOUT_H         0x3B
+#define ACCEL_XOUT_H        0x3B
+#define GYRO_XOUT_H         0x43
 #define WHO_AM_I            0x75
 
-uint8_t data0[10];
-uint8_t data1[10];
+uint8_t data0[16];
+uint8_t data1[16];
 uint8_t command[2];
+uint32_t ti;
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -74,18 +76,25 @@ void readI2C(uint8_t address, uint8_t regist, uint8_t bytes, uint8_t buf[]) {
   for (int i = 0; i < bytes; i++) {
     buf[i] = Wire.read();
   }
-  uint32_t ti = micros();
-  buf[6] = ti >> 8;
-  buf[7] = ti >> 0;
-  buf[9] = '\n';
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   readI2C(MPU6050_ADDRESS0,ACCEL_XOUT_H,6,data0);
-  (data0)[8]='0';
-  readI2C(MPU6050_ADDRESS0,ACCEL_XOUT_H,6,data1);
-  (data1)[8]='1';
-  Serial.write(data0,10);
-  Serial.write(data1,10);
+  readI2C(MPU6050_ADDRESS0,GYRO_XOUT_H,6,data0+6);
+  ti = micros();
+  data0[12] = ti >> 8;
+  data0[13] = ti >> 0;
+  data0[14]='0';
+  data0[15] = '\n';
+  readI2C(MPU6050_ADDRESS1,ACCEL_XOUT_H,6,data1);
+  readI2C(MPU6050_ADDRESS1,GYRO_XOUT_H,6,data1+6);
+  ti = micros();
+  data1[12] = ti >> 8;
+  data1[13] = ti >> 0;
+  data1[14]='1';
+  data1[15] = '\n';
+  Serial.write(data0,16);
+  Serial.write(data1,16);
 }
