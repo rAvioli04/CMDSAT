@@ -30,3 +30,5 @@ fp-info-cache
 
 
 *.lck
+/.vscode
+/.arduino
