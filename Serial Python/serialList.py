@@ -2,7 +2,7 @@ import numpy as np
 import serial
 import sys
 
-ser = serial.Serial("COM11" , 115200)
+ser = serial.Serial("COM21" , 115200)
 accel0 = open("test0.txt", "w")
 accel1 = open("test1.txt", "w")
 # ser.open()
@@ -36,6 +36,9 @@ while ser.is_open:
             accel0.write(f"{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},{data[6]},{data[7]},{data[8]}" + "\n")
             lastTi0 = data[7]
         count = count + 1
+    else:
+        accel0.flush()
+        accel1.flush()
 
     if (count > 10000):
         break

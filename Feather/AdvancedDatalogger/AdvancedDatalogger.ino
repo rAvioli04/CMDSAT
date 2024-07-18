@@ -25,7 +25,7 @@ void setup()
   pinPeripheral(13, PIO_SERCOM); 
   
   Serial.begin(115200);                                  // Activate the native USB port
-//while(!Serial);                                        // Wait for the native USB to be ready
+while(!Serial);                                        // Wait for the native USB to be ready
 //  Serial.println("MPU6050 0");
 
   
@@ -54,8 +54,8 @@ void setup()
   I2C1.dmacInterruptsOn();
 //  pinPeripheral(3, PIO_SERCOM_ALT);                         // Assign D3 to SERCOM2 I2C SDA
 //  pinPeripheral(4, PIO_SERCOM_ALT);                         // Assign D4 to SERCOM2 I2C SCL
-  I2C1.setWriteChannel(2);                                  // Set the I2C1 DMAC write channel to 2
-  I2C1.setReadChannel(3);                                   // Set the I2C1 DMAC read channel to 3
+  I2C1.setWriteChannel(5);                                  // Set the I2C1 DMAC write channel to 2
+  I2C1.setReadChannel(6);                                   // Set the I2C1 DMAC read channel to 3
   I2C1.writeByte(MPU6050_ADDRESS, PWR_MGMT_1, 0x07);         // Wake up the MPU6050 device
   delay(100);                                               // Wait for the MPU6050 to settle   
   I2C1.writeByte(MPU6050_ADDRESS,PWR_MGMT_1,0x80);
@@ -80,12 +80,19 @@ void loop()
   data[15] = ti >> 0;
   data[16] = '0';
   data[17] = '\n';
+
   I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 18,14);
   (data+18)[14] = ti >> 8;
   (data+18)[15] = ti >> 0;
   (data+18)[16] = '1';
   (data+18)[17] = '\n';
-  // Add your concurrent code here...
-  while(I2C1.readBusy && I2C.readBusy);                   
+//  // Add your concurrent code here...
+  while(I2C.readBusy) {
+//    Serial.println("I2C is stuck");                   
+  }
+  while(I2C1.readBusy) {
+//    Serial.println("I2C1 is stuck");
+  }
+
   Serial.write(data,36);
 }
