@@ -61,14 +61,14 @@ I2C.write({0x1A, 0x00})
 -- Gyro Config
 I2C.write({0x1B, 0x08})
 -- Accelerometer Config
-I2C.write({0x1C, 0x18})
+I2C.write({0x1C, 0x00})
 -- Power Management Config
 I2C.write({0x6B, 0x01})
 
 -- Continuous update, LSB at lower addr, +- 2g, Hi-Res disable
 --I2C.write({0x23, 0x49})
 -- Configure a 500ms interval
-LJ.IntervalConfig(0, 500)
+LJ.IntervalConfig(0, 1)
 while true do
   -- If an interval is done
   if LJ.CheckInterval(0) then
@@ -82,14 +82,26 @@ while true do
     local acceldata = {}
     -- Convert the data into Gs
     for i=0, 2 do
-      table.insert(acceldata, convert_16_bit(rawacceldata[1+i*2], rawacceldata[2+i*2], (0x7FFF/2)))
+      table.insert(acceldata, convert_16_bit(rawacceldata[1+i*2], rawacceldata[2+i*2], 1)) -- (0x7FFF/2)))
     end
     -- Add accelX value, in Gs, to the user_ram register
+<<<<<<< Updated upstream
     MB.W(X, u16, acceldata[1])
     -- Add accelY
     MB.W(Y, u16, acceldata[2])
     -- Add accelZ
     MB.W(Z, u16, acceldata[3])
+=======
+    MB.W(46180, i16, math.abs(acceldata[1]))
+    -- Add accelY
+    MB.W(46181, i16, math.abs(acceldata[2]))
+    -- Add accelZ
+    MB.W(46182, i16, math.abs(acceldata[3]))
+      
+    MB.W(46183, i16, acceldata[1]/math.abs(acceldata[1]))
+    MB.W(46184, i16, acceldata[2]/math.abs(acceldata[2]))
+    MB.W(46185, i16, acceldata[3]/math.abs(acceldata[3]))
+>>>>>>> Stashed changes
     print("X: "..acceldata[1])
     print("Y: "..acceldata[2])
     print("Z: "..acceldata[3])

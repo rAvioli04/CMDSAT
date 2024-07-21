@@ -26,7 +26,7 @@ void setup()
   
   Serial.begin(115200);                                  // Activate the native USB port
 while(!Serial);                                        // Wait for the native USB to be ready
-//  Serial.println("MPU6050 0");
+  Serial.println("MPU6050 0");
 
   
   I2C.begin(400000);                                        // Start I2C bus at 400kHz          
@@ -47,9 +47,9 @@ while(!Serial);                                        // Wait for the native US
   I2C.initWriteRegAddr(MPU6050_ADDRESS, ACCEL_XOUT_H);       // Set-up DMAC to write to MPU6050 register pointer
   I2C.initReadBytes(MPU6050_ADDRESS, data, 14);   // Set DMAC to read the data
 //  I2C.attachReadCallback(mpu0Callback);                    // Attach a read callback function to I2C
-//  Serial.println("MPU6050 0 Done");
+  Serial.println("MPU6050 0 Done");
   
-//  Serial.println("MPU6050 1");
+  Serial.println("MPU6050 1");
   I2C1.begin(400000);                                       // Start I2C bus at 400kHz 
   I2C1.dmacInterruptsOn();
 //  pinPeripheral(3, PIO_SERCOM_ALT);                         // Assign D3 to SERCOM2 I2C SDA
@@ -69,7 +69,7 @@ while(!Serial);                                        // Wait for the native US
   I2C1.initWriteRegAddr(MPU6050_ADDRESS, ACCEL_XOUT_H);      // Set-up DMAC to write to MPU6050 register pointer
   I2C1.initReadBytes(MPU6050_ADDRESS, data+18, 14);// Set DMAC to read the data
 //  I2C1.attachReadCallback(mpu1Callback);                   // Attach a read callback function to I2C1
-//  Serial.println("MPU6050 1 Done");
+  Serial.println("MPU6050 1 Done");
 }
 
 void loop() 
@@ -78,21 +78,16 @@ void loop()
   ti = micros();
   data[14] = ti >> 8;
   data[15] = ti >> 0;
-  data[16] = '0';
+  data[16] = '4';
   data[17] = '\n';
 
-  I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 18,14);
+//  I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 18,14);
   (data+18)[14] = ti >> 8;
   (data+18)[15] = ti >> 0;
-  (data+18)[16] = '1';
+  (data+18)[16] = '5';
   (data+18)[17] = '\n';
 //  // Add your concurrent code here...
-  while(I2C.readBusy) {
-//    Serial.println("I2C is stuck");                   
-  }
-  while(I2C1.readBusy) {
-//    Serial.println("I2C1 is stuck");
-  }
+  while(I2C.readBusy || I2C1.readBusy);
 
   Serial.write(data,36);
 }
