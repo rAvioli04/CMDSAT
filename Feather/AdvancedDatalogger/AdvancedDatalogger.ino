@@ -41,7 +41,7 @@ while(!Serial);                                        // Wait for the native US
   delay(100); 
   I2C.writeByte(MPU6050_ADDRESS, CONFIG, 0x00);              // Set the gyro/accel filter to 20Hz  
   I2C.writeByte(MPU6050_ADDRESS, SAMPLE_RATE_DIVIDER, 0x00);
-  I2C.writeByte(MPU6050_ADDRESS, GYRO_CONFIG, 0x1 << 3);    // Set full scale range to +/-500 degrees/s 
+  I2C.writeByte(MPU6050_ADDRESS, GYRO_CONFIG, 0x0 << 3);    // Set full scale range to +/-500 degrees/s 
   I2C.writeByte(MPU6050_ADDRESS, ACCEL_CONFIG, 0x1 << 3);   // Set full scale range to +/-4g
 
   I2C.initWriteRegAddr(MPU6050_ADDRESS, ACCEL_XOUT_H);       // Set-up DMAC to write to MPU6050 register pointer
@@ -64,7 +64,7 @@ while(!Serial);                                        // Wait for the native US
   delay(100); 
   I2C1.writeByte(MPU6050_ADDRESS, CONFIG, 0x00);              // Set the gyro/accel filter to 20Hz  
   I2C1.writeByte(MPU6050_ADDRESS, SAMPLE_RATE_DIVIDER, 0x00);
-  I2C1.writeByte(MPU6050_ADDRESS, GYRO_CONFIG, 0x1 << 3);    // Set full scale range to +/-500 degrees/s 
+  I2C1.writeByte(MPU6050_ADDRESS, GYRO_CONFIG, 0x0 << 3);    // Set full scale range to +/-500 degrees/s 
   I2C1.writeByte(MPU6050_ADDRESS, ACCEL_CONFIG, 0x1 << 3);   // Set full scale range to +/-4g  // Set full scale range to +/-4g
   I2C1.initWriteRegAddr(MPU6050_ADDRESS, ACCEL_XOUT_H);      // Set-up DMAC to write to MPU6050 register pointer
   I2C1.initReadBytes(MPU6050_ADDRESS, data+18, 14);// Set DMAC to read the data
@@ -81,13 +81,13 @@ void loop()
   data[16] = '4';
   data[17] = '\n';
 
-//  I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 18,14);
+  I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 18,14);
   (data+18)[14] = ti >> 8;
   (data+18)[15] = ti >> 0;
   (data+18)[16] = '5';
   (data+18)[17] = '\n';
 //  // Add your concurrent code here...
-  while(I2C.readBusy || I2C1.readBusy);
+while(I2C.readBusy || I2C1.readBusy);
 
   Serial.write(data,36);
 }

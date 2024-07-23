@@ -4,10 +4,15 @@ import sys
 from datetime import datetime
 import time
 
-ser = serial.Serial("COM5" , 115200,timeout=0.1)
-accel0 = open(f"test{datetime.now().strftime('%Y_%m_%dT%H_%M_%S')}0.txt", "w")
-accel1 = open(f"test{datetime.now().strftime('%Y_%m_%dT%H_%M_%S')}1.txt", "w")
-raw = open(f"raw{datetime.now().strftime('%Y_%m_%dT%H_%M_%S')}1.txt", "wb")
+ser = serial.Serial("COM4",115200,timeout=0.1)
+
+header0 = f"test{datetime.now().strftime('%Y_%m_%dT%H_%M_%S')}0.txt"
+header1 = f"test{datetime.now().strftime('%Y_%m_%dT%H_%M_%S')}1.txt"
+source = f"raw{datetime.now().strftime('%Y_%m_%dT%H_%M_%S')}1.txt"
+
+accel0 = open(header0, "a")
+accel1 = open(header1, "a")
+raw = open(source, "ab")
 # ser.open()
 
 lastTi0 = 0
@@ -34,10 +39,16 @@ while ser.is_open:
         accel0.write(f"{data0[0]},{data0[1]},{data0[2]},{data0[3]},{data0[4]},{data0[5]},{data0[6]},{data0[7]},{data0[8]}" + "\n")
         accel1.write(f"{data1[0]},{data1[1]},{data1[2]},{data1[3]},{data1[4]},{data1[5]},{data1[6]},{data1[7]},{data1[8]}" + "\n")
         count = count + 1
-        if (count > 100):
+        if (count > 2000):
             accel0.flush()
             accel1.flush()
             raw.flush()
+            raw.close()
+            accel0.close()
+            accel1.close()
+            accel0 = open(header0, "a")
+            accel1 = open(header1, "a")
+            raw = open(source, "ab")
             count = 0
 
     # if (count > 50000):
