@@ -7,10 +7,10 @@ import time
 #########################################################
 # IMPORTANT VARIABLES TO CHANGE
 #########################################################
-adaloggerName = "A"   # Set to the adalogger's letter
-comPort = "COM21"
-accel0character = bytearray('0\n',"ascii") # Change this to whatever data[16] is set to, KEEP THE NEWLINE
-accel1character = bytearray('1\n',"ascii") # Change this to whatever (data+18)[16] is set to, KEEP THE NEWLINE
+adaloggerName = "B"   # Set to the adalogger's letter
+comPort = "COM4"
+accel0character = bytearray('1\n',"ascii") # Change this to whatever data[16] is set to, KEEP THE NEWLINE
+accel1character = bytearray('2\n',"ascii") # Change this to whatever (data+18)[16] is set to, KEEP THE NEWLINE
 #########################################################
 
 ser = serial.Serial(comPort,115200,timeout=0.1)

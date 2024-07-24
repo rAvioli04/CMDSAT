@@ -80,7 +80,7 @@ void loop()
   data[15] = ti >> 16;
   data[16] = ti >> 8;
   data[17] = ti >> 0;
-  data[18] = '8';
+  data[18] = '5';
   data[19] = '\n';
 
   I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 20,14);
@@ -88,7 +88,7 @@ void loop()
   (data+20)[15] = ti >> 16;
   (data+20)[16] = ti >> 8;
   (data+20)[17] = ti >> 0;
-  (data+20)[18] = '9';
+  (data+20)[18] = '6';
   (data+20)[19] = '\n';
 //  // Add your concurrent code here...
 while(I2C.readBusy || I2C1.readBusy);

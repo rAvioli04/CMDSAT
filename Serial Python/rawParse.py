@@ -5,8 +5,8 @@ import numpy as np
 #########################################################
 # IMPORTANT VARIABLES TO CHANGE FOR TESTING
 #########################################################
-filename = "raw_AdaloggerA_COM21_2024_07_23T20_33_51.txt"
-accelCharacter = '9' # CHANGE THIS TO LOOK AT THE OTHER ACCELEROMETER
+filename = "raw_AdaloggerB_COM4_2024_07_24T08_09_59.txt"
+accelCharacter = '2' # CHANGE THIS TO LOOK AT THE OTHER ACCELEROMETER
 
 file = open(filename,'rb')
 lines = file.readlines()
