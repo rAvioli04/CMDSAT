@@ -14,7 +14,7 @@
 uint32_t ti;
 uint8_t data0[18];
 uint8_t data1[18];
-uint8_t data[36];
+uint8_t data[40];
 volatile boolean sercomError = false;
 
 I2C_DMAC I2C1(&sercom1, 11, 13);                              // Create (instantiate) a second I2C1 object with sercom2, on pins D3 and D4
@@ -76,18 +76,22 @@ void loop()
 { 
   I2C.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data,14);
   ti = micros();
-  data[14] = ti >> 8;
-  data[15] = ti >> 0;
-  data[16] = '4';
-  data[17] = '\n';
+  data[14] = ti >> 24;
+  data[15] = ti >> 16;
+  data[16] = ti >> 8;
+  data[17] = ti >> 0;
+  data[18] = '4';
+  data[19] = '\n';
 
-  I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 18,14);
-  (data+18)[14] = ti >> 8;
-  (data+18)[15] = ti >> 0;
-  (data+18)[16] = '5';
-  (data+18)[17] = '\n';
+  I2C1.readBytes(MPU6050_ADDRESS,ACCEL_XOUT_H,data + 20,14);
+  (data+20)[14] = ti >> 24;
+  (data+20)[15] = ti >> 16;
+  (data+20)[16] = ti >> 8;
+  (data+20)[17] = ti >> 0;
+  (data+20)[18] = '5';
+  (data+20)[19] = '\n';
 //  // Add your concurrent code here...
 while(I2C.readBusy || I2C1.readBusy);
 
-  Serial.write(data,36);
+  Serial.write(data,40);
 }
