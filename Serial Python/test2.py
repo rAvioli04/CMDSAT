@@ -22,13 +22,13 @@ gyroz = np.array([int.from_bytes(line[12:14],"big",signed=True) for line in prop
 micros = np.array([int.from_bytes(line[14:16],"big",signed=False) for line in properlines])
 offset = 0x10000
 count = 0
-# for i in range(len(micros) - 1):
-#     delta = micros[i+1] - micros[i]
-#     micros[i] = micros[i] + offset * count
-#     if delta < -50000:
-#         count = count + 1
-    # if i >1:
-        # print(micros[i] - micros[i -1 ])
+for i in range(len(micros) - 1):
+    delta = micros[i+1] - micros[i]
+    micros[i] = micros[i] + offset * count
+    if delta < -50000:
+        count = count + 1
+    if i >1:
+        print(micros[i] - micros[i -1 ])
 
 bytesToGs = 8/0x7FFF # +-8 gs per half the range of bytes
 bytesToAngularFreq = 2000/0x7FFF # +-2000 rad/s per half the range of bytes
